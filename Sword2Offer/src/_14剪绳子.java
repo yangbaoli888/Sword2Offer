@@ -13,11 +13,18 @@
 public class _14剪绳子 {
 	
 	public static void main(String[] args) {
-		System.out.println(maxCutting(8));
+		int len = 15;
+		System.out.println(maxCutting1(len));
+		System.out.println(maxCutting2(len));
 		
 	}
 	
-	static int maxCutting(int len) {
+	/**
+	 * 使用动态规划方法
+	 * @param len
+	 * @return
+	 */
+	static int maxCutting1(int len) {
 		//因为n与m均大于1
 		if(len <= 1)
 			return -1;
@@ -45,6 +52,35 @@ public class _14剪绳子 {
 			maxAns[i] = max;
 		}
 		return maxAns[maxAns.length - 1];
+	}
+	
+	/**
+	 * 使用贪心算法求解
+	 * 贪心算法的思想是每一步求最优解，一步步到最后就是整个问题的最优解
+	 * @param len
+	 * @return
+	 */
+	static int maxCutting2(int len) {
+		//先将特殊值计算得到
+		if(len <= 1)
+			return -1;
+		else if(len == 2)
+			return 2;
+		else if(len == 3)
+			return 2;
+		else if(len == 4)
+			return 4;
+		int result = 1;
+		
+		//当len >= 5时通过观察可以发现截取出长度为3的段可以将乘积最大化
+		//辗转乘、减操作直至len<5不用继续切割
+		while(len >= 5) {
+			result *= 3;
+			len -= 3;
+		}
+		//乘积最后乘上最后一段的长度
+		result *= len;
+		return result;
 	}
 
 }
